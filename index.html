@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guardians of the Digital Kingdom</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .app-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .story-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .kingdom-header {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .castle-emoji {
+            font-size: 5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .story-text {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            max-width: 900px;
+            margin-bottom: 40px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .challenge-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 900px;
+            color: #333;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideInLeft 0.6s ease-out;
+            margin: 20px 0;
+        }
+
+        .challenge-title {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .challenge-content {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .threat {
+            background: #fee;
+            border-left: 5px solid #e74c3c;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .solution {
+            background: #efe;
+            border-left: 5px solid #27ae60;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-challenge {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn-challenge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.4);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .emoji-large {
+            font-size: 4rem;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+
+        .quiz-option {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 15px 20px;
+            margin: 10px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .quiz-option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: translateX(10px);
+        }
+
+        .quiz-option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .completion-message {
+            font-size: 2rem;
+            color: #4CAF50;
+            font-weight: 800;
+            margin: 20px 0;
+        }
+
+        .shield-icon {
+            font-size: 3rem;
+            display: inline-block;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .info-box {
+            background: rgba(255,255,255,0.15);
+            border: 2px solid white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            color: white;
+            max-width: 800px;
+        }
+
+        .intro-screen {
+            text-align: center;
+        }
+
+        .intro-text {
+            font-size: 1.3rem;
+            line-height: 2;
+            max-width: 800px;
+            margin: 30px 0;
+        }
+
+        .term {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 0 3px;
+        }
+        footer {
+            background: rgba(0, 0, 0, 0.2);
+            width: 100%;
+            padding: 20px 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-wrapper"><!-- Intro Screen -->
+   <div id="introScreen" class="story-container">
+    <div class="intro-screen">
+     <div class="castle-emoji">
+      🏰
+     </div>
+     <h1 class="kingdom-header">ඩිජිටල් රාජධානියේ ආරක්ෂකයෝ</h1>
+     <p class="intro-text">ඈත අතීතයේ <span class="term">Digital Kingdom (ඩිජිටල් පුරවරය)</span> නමින් හඳුන්වන සුන්දර රාජධානියක් තිබුණා।</p>
+     <p class="intro-text">මෙම රජධානිය පාලනය කරනු ලැබුවේ <span class="term">CPU (සීපීයු)</span> රජතුමා සහ <span class="term">Operating System (ඔපරේටින් සිස්ටම්)</span> රැජිනයි।</p>
+     <div class="emoji-large">
+      👑
+     </div>
+     <p class="intro-text" style="font-size: 1.1rem;">ඔවුන් සතුව ඉතා වටිනා වස්තූන් දෙවර්ගයක් තිබුණා:<br><strong>Hardware (දෘඪාංග)</strong> සහ <strong>Software (මෘදුකාංග)</strong></p>
+     <p class="info-box">🛡️ නමුත් සතුරන්ගේ ආක්‍රමණ එම රාජධානියට තර්ජන ඇති කරනවා!<br>
+       ඔබට තිබෙන අභියෝගය ඒවා ජය ගෙන රාජධානිය ගලවා ගැනීමයි!</p>
+     <div class="buttons-container"><button class="btn-primary" onclick="startChallenge(1)">ඉදිරියට යමු →</button>
+     </div>
+    </div>
+   </div><!-- Challenge 1: Hardware Protection -->
+   <div id="challenge1Screen" class="story-container hidden">
+    <div class="progress-bar">
+     <div class="progress-fill" style="width: 33%;"></div>
+    </div>
+    <div class="challenge-card">
+     <div class="emoji-large">
+      🏰
+     </div>
+     <h2 class="challenge-title">පළමු අභියෝගය: දෘඩාංග (මාලිගාව) රකිමු</h2>
+     <p style="font-size: 1.1rem; color: #666; margin-bottom: 20px;">Challenge 1: Protecting the Hardware</p>
+     <div class="challenge-content">
+      <p style="margin-bottom: 15px;"><strong>දෘඩාංග (මාලිගාව)</strong> ඉලක්ක කර සතුරන් මෙම ප්‍රහාර එල්ල කරනවා! ඔබ ඒවා වැළැක්වීමේ ක්‍රම ඉගෙන ගත යුතුයි।</p>
+      <div class="threat">
+       ⚡ <strong>Threat 1: Power Issues (විදුලි බලයේ ඇතිවන වෙනස්කම්)</strong><br>
+        හදිසියේ විදුලිය විසන්ධි වුණොත් ඔබේ කරන වැඩ 'save' කරගැනීමට බැරි වෙනවා! විදුලිය වැඩි වුනොත් පරිගණකය හානි වෙන්න පුළුවන්.
+      </div>
+      <div class="solution">
+       ✅ <strong>Solution:</strong> UPS (Uninterruptable Power Supply - අනවරත ජව සැපයුම) භාවිතා කරන්න! එසේ ම විලායක (Fuse) සහ Surge Protection (අධික විදුලි ධාරා ආරක්ෂක) දැමිය යුතුයි।
+      </div>
+      <div class="threat">
+       🔥 <strong>Threat 2: Overheating (අධික තාපය)</strong><br>
+        වැඩ කරන කොට System Unit (CPU, GPU, Power Supply) තුල උෂ්ණත්වය ඉහළ යනවා. මේ නිසා ගැටළු ඇති වෙනවා!
+      </div>
+      <div class="solution">
+       ✅ <strong>Solution:</strong>Heat Sinks (තාප අවශෝෂක), Cooling Fans (සිසිලන පංකා) සවි කරන්න සහ Air Conditioning (වායුසමීකරණය) කරන්න!
+      </div>
+      <div class="threat">
+       🐀 <strong>Threat 3: Dust &amp; Animals (දූවිලි සහ සතුන්)</strong><br>
+        දූවිලි, තෙතමනය සහ මීයන්, කෘමින් වැනි සතුන් නිසා දෘඩාංග විනාශ වෙන්න පුළුවන්!
+      </div>
+      <div class="solution">
+       ✅ <strong>Solution:</strong> ආහාර වැනි දේ පරිගණකය අසලට නොගැනීම, නිතර අතුගෑම සහ දුහුවිලි පිසදැමීම!
+      </div>
+     </div>
+     <div class="buttons-container"><button class="btn-challenge" onclick="startQuiz(1)">🎯 මෙම අභියෝගය විසඳන්න</button> <button class="btn-secondary" onclick="startChallenge(2)">ඉදිරියට →</button>
+     </div>
+    </div>
+   </div><!-- Challenge 1 Quiz -->
+   <div id="challenge1Quiz" class="story-container hidden">
+    <div class="challenge-card">
+     <h2 class="challenge-title">🎯 Hardware ආරක්ෂණ ක්‍රම</h2>
+     <div id="quiz1Content">
+      <p style="color: #333; font-size: 1.1rem; margin-bottom: 20px; font-weight: 600;"><strong>ප්‍රශ්න 1:</strong> හදිසියේ විදුලිය විසන්ධි වුණොත් ඔබේ කරන වැඩ ආරක්ෂා කරගැනීමට කුමක් භාවිතා කරයිද?</p>
+      <div id="quiz1Options" class="quiz-options"></div>
+     </div>
+     <div class="buttons-container" style="margin-top: 30px;"><button class="btn-secondary" onclick="backToChallenge(1)">← ආපසු යන්න</button>
+     </div>
+    </div>
+   </div><!-- Challenge 2: Malware Protection -->
+   <div id="challenge2Screen" class="story-container hidden">
+    <div class="progress-bar">
+     <div class="progress-fill" style="width: 66%;"></div>
+    </div>
+    <div class="challenge-card">
+     <div class="emoji-large">
+      🦠
+     </div>
+     <h2 class="challenge-title">දෙවන අභියෝගය: අනිෂ්ට මෘදුකාංග ආක්‍රමණය</h2>
+     <p style="font-size: 1.1rem; color: #666; margin-bottom: 20px;">Challenge 2: Malware Attack </p>
+     <div class="challenge-content">
+      <p style="margin-bottom: 15px;"><strong>Malware (අනිෂ්ට මෘදුකාංග)</strong> සතුරු සිටින්නේ ඔබේ දත්ත විනාශ කිරීමට සහ සොරා ගැනීමටයි!</p>
+      <div class="threat">
+       🦠 <strong>Enemy 1: Computer Virus (පරිගණක වෛරස)</strong><br>
+        තමන්ගේම පිටපත් හදාගෙන ගොනු විනාශ කරයි!
+      </div>
+      <div class="threat">
+       🦠 <strong>Enemy 2: Computer Worms (පරිගණක වර්ම්ස්)</strong><br>
+        Network (ජාල) හරහා වේගයෙන් පැතිර සෙසු පරිගණකද අක්‍රිය කර හානි කරයි!
+      </div>
+      <div class="threat">
+       🐴 <strong>Enemy 3: Trojan Horse (ට්‍රෝජන් අශ්වයා)</strong><br>
+        හොඳ කෙනෙක් වගේ ඇවිත් රහසින් හානි කරයි!
+      </div>
+      <div class="threat">
+       👁️ <strong>Enemy 4: Spyware (ඔත්තු මෘදුකාංග)</strong><br>
+        ඔබේ තොරතුරු රහසින් හොරකම් කර වෙනත් අයට දෙනවා!
+      </div>
+      <h3 style="color: #27ae60; margin-top: 25px; margin-bottom: 15px; font-size: 1.3rem;">🛡️ ආරක්ෂක හමුදාව (Countermeasures)</h3>
+      <div class="solution">
+       ✅ <strong>Defense 1: Antivirus Software (ප්‍රතිවෛරස මෘදුකාංග)</strong><br>
+        නිතරම යාවත්කාලීන (Update) කර තබා ගන්න! එසේ නම් නව සතුරු ප්‍රහාර හැඳුනාගෙන ඒවා නැවැත්විය හැකිවෙනවා!
+      </div>
+      <div class="solution">
+       ✅ <strong>Defense 2: Firewall (ගිනි පවුරු)</strong><br>
+        සක්‍රීය කර තබන්න! එමගින් අනවසර ඇතුළු වීම වැළැක්වෙනවා!
+      </div>
+      <div class="solution">
+       ✅ <strong>Defense 3: Backup (උපස්ථ පිටපත්)</strong><br>
+        වැදගත් දත්ත CD, DVD හෝ වෙනත් තැටියක පිටපත් කර තබා ගන්න! එවිට පරිගණකය තුළ නැතිවුණත් නැවත ලබාගත හැකිවෙනවා!
+      </div>
+     </div>
+     <div class="buttons-container"><button class="btn-challenge" onclick="startQuiz(2)">🎯 මෙම අභියෝගය විසඳන්න</button> <button class="btn-secondary" onclick="startChallenge(3)">ඉදිරියට →</button>
+     </div>
+    </div>
+   </div><!-- Challenge 2 Quiz -->
+   <div id="challenge2Quiz" class="story-container hidden">
+    <div class="challenge-card">
+     <h2 class="challenge-title">🎯 Malware ආරක්ෂණ ප්‍රශ්න</h2>
+     <div id="quiz2Content">
+      <p style="color: #333; font-size: 1.1rem; margin-bottom: 20px; font-weight: 600;"><strong>ප්‍රශ්න 2:</strong> Network හරහා වේගයෙන් පැතිරෙන හානිදායක මෘදුකාංගය කුමක්ද?</p>
+      <div id="quiz2Options" class="quiz-options"></div>
+     </div>
+     <div class="buttons-container" style="margin-top: 30px;"><button class="btn-secondary" onclick="backToChallenge(2)">← ආපසු යන්න</button>
+     </div>
+    </div>
+   </div><!-- Challenge 3: Access Control -->
+   <div id="challenge3Screen" class="story-container hidden">
+    <div class="progress-bar">
+     <div class="progress-fill" style="width: 100%;"></div>
+    </div>
+    <div class="challenge-card">
+     <div class="emoji-large">
+      🔑
+     </div>
+     <h2 class="challenge-title">තෙවන අභියෝගය: රහස් දොරටු ආරක්ෂාව</h2>
+     <p style="font-size: 1.1rem; color: #666; margin-bottom: 20px;">Challenge 3: Access Control</p>
+     <div class="challenge-content">
+      <p style="margin-bottom: 15px;">සතුරන්ට System Unit එකට ඇතුළු වීම වැළැක්වීමට අපි අගුලු දැමිය යුතුයි! ඔබ විවිධ ආරක්ෂාවන් ඉගෙන ගතයුතුයි:</p>
+      <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 15px; font-size: 1.2rem;">🔐 Software අගුළු (Software Locks)</h3>
+      <div class="solution">
+       ✅ <strong>Password (මුරපදය)</strong><br>
+        අනුමාන කළ නොහැකි ශක්තිමත් මුරපද භාවිතා කරන්න! උදා: mY@Str0ng#PwD2024
+      </div>
+      <div class="solution">
+       ✅ <strong>Encryption (ගුප්ත කේතනය)</strong><br>
+        දත්ත වෙනත් අයෙකුට කියවීමට නොහැකි වන සේ රහස් සංකේත බවට පත් කිරීම! එවිට දත්ත සොරා ගත්තද ඔවුන්ට වැඩක් නොවේ!
+      </div>
+      <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 15px; font-size: 1.2rem;">👁️ ජෛවමිතික ආරක්ෂාව (Biometrics)</h3>
+      <p style="margin-bottom: 15px;">හුදෙක් මුරපදයක් වෙනුවට පුද්ගල ජීව අනන්‍යතාවය භාවිතා කිරීම වඩාත් ආරක්ෂිතයි!</p>
+      <div class="solution">
+       ✅ <strong>Fingerprints (ඇඟිලි සලකුණු)</strong><br>
+        ඔබේ ඇඟිලි සලකුණ අනන්‍ය හා අනුපිටපත්කරණ කළ නොහැකි දෙයකි!
+      </div>
+      <div class="solution">
+       ✅ <strong>Voice Recognition (කටහඬ හඳුනාගැනීම)</strong><br>
+        ඔබේ කටහඬ එලෙසම අනුකරණය කළ නොහැකි වේ!
+      </div>
+      <div class="solution">
+       ✅ <strong>Facial or Iris Recognition (මුහුණ හෝ ඇස හඳුනාගැනීම)</strong><br>
+        මුහුණ හෝ ඇසේ කණිනිකාව ස්කෑන් කර ලබා ගන්නා දත්ත අනන්‍ය වේ.
+      </div>
+     </div>
+     <div class="buttons-container"><button class="btn-challenge" onclick="startQuiz(3)">🎯 මෙම අභියෝගය විසඳන්න</button> <button class="btn-secondary" onclick="startChallenge(4)">ඉදිරියට →</button>
+     </div>
+    </div>
+   </div><!-- Challenge 3 Quiz -->
+   <div id="challenge3Quiz" class="story-container hidden">
+    <div class="challenge-card">
+     <h2 class="challenge-title">🎯 Access Control ආරක්ෂණ ප්‍රශ්න</h2>
+     <div id="quiz3Content">
+      <p style="color: #333; font-size: 1.1rem; margin-bottom: 20px; font-weight: 600;"><strong>ප්‍රශ්න 3:</strong> ඔබේ කටහඬ, ඇඟිලි සලකුණු සහ මුහුණ භාවිතා කරමින් පිවිසුම අයිතිවාසිකම් තීරණය කිරීම කුමක්ද?</p>
+      <div id="quiz3Options" class="quiz-options"></div>
+     </div>
+     <div class="buttons-container" style="margin-top: 30px;"><button class="btn-secondary" onclick="backToChallenge(3)">← ආපසු යන්න</button>
+     </div>
+    </div>
+   </div><!-- Final Screen -->
+   <div id="finalScreen" class="story-container hidden">
+    <div class="challenge-card">
+     <div class="emoji-large">
+      🎉
+     </div>
+     <h2 class="challenge-title" style="color: #4CAF50;">සුභ පැතුම්!</h2>
+     <p class="completion-message">ඔබ දැන් ඩිජිටල් පුරවරයේ දක්ෂ ආරක්ෂකයෙක්! 🛡️</p>
+     <div class="challenge-content">
+      <p style="margin: 20px 0; font-size: 1.1rem;">මේ පාඩමෙන් ඔබ ඉගෙනගත් දේවල්:</p>
+      <div style="background: #f0f9ff; padding: 20px; border-radius: 10px; margin: 15px 0; border-left: 5px solid #667eea;">
+       <p><strong>✅ Hardware ආරක්ෂාව (පළමු අභියෝගය)</strong><br>
+         දෘඪාංග සතුරුවලින් බේරීමට UPS, Cooling Fans සහ පිරිසිදු කිරීම!</p>
+      </div>
+      <div style="background: #f0fff0; padding: 20px; border-radius: 10px; margin: 15px 0; border-left: 5px solid #27ae60;">
+       <p><strong>✅ Malware ආරක්ෂාව (දෙවන අභියෝගය)</strong><br>
+         Antivirus, Firewall සහ Backup භාවිතා කිරීම!</p>
+      </div>
+      <div style="background: #fff0f5; padding: 20px; border-radius: 10px; margin: 15px 0; border-left: 5px solid #e74c3c;">
+       <p><strong>✅ Access Control ආරක්ෂාව (තෙවන අභියෝගය)</strong><br>
+         ශක්තිමත් මුරපද, Encryption සහ Biometrics යොදා ගැනීම!</p>
+      </div>
+      <p style="margin-top: 30px; font-size: 1.2rem; font-weight: 700; color: #667eea;">දැන් රාජධානිය සැමදා සුරැකිව පවතිනු ඇත! 🏰✨</p>
+     </div>
+     <div class="buttons-container"><button class="btn-primary" onclick="location.reload()">🔄 නැවත ඉගෙන ගන්න</button>
+     </div>
+    </div>
+   </div>
+          <footer class="text-center p-6 text-white/70 text-sm mt-auto"><p>💻 ICT Learning Material <br>Copyright © Krishan Liyanaarachchi</p></footer>
+  </div>
+
+
+
+
+  <script>
+        const quizData = {
+            1: {
+                question: "පරිගණකයේ බිඳ ගිය සමයෙ දෝෂ දුරුකරීමට:",
+                options: [
+                    { text: "A) UPS (Uninterruptable Power Supply) භාවිතා කිරීම", correct: true },
+                    { text: "B) CPU අලුතින් මිලට ගැනීම", correct: false },
+                    { text: "C) දෘඩ තැටිය ගලවා ඉවත් කර තැබීම", correct: false },
+                    { text: "D) මම අසරණයි", correct: false }
+                ]
+            },
+            2: {
+                question: "Network හරහා වේගයෙන් පැතිරෙන නිර්දයක සතුරු කුමක්ද?",
+                options: [
+                    { text: "A) Virus (වෛරස)", correct: false },
+                    { text: "B) Worms (වර්ම්ස්)", correct: true },
+                    { text: "C) Trojan Horse (ට්‍රෝජන් අශ්වයා)", correct: false },
+                    { text: "D) Spyware (ඔත්තු බැලීමේ වැඩසටහන්)", correct: false }
+                ]
+            },
+            3: {
+                question: "ඔබේ ඇඟිලි සලකුණු, කටහඬ සහ මුහුණ භාවිතා කරමින් පිවිසුම අයිතිවාසිකම් තීරණය කිරීම කුමක්ද?",
+                options: [
+                    { text: "A) Password (මුරපදය)", correct: false },
+                    { text: "B) Encryption (ගුප්ත කේතනය)", correct: false },
+                    { text: "C) Biometrics (ජෛවමිතික ආරක්ෂාව)", correct: true },
+                    { text: "D) Firewall (ගිනි පවුරු)", correct: false }
+                ]
+            }
+        };
+
+let currentChallenge = 0;
+        let selectedAnswer = null;
+
+        function showScreen(screenId) {
+            const screens = document.querySelectorAll('[id$="Screen"], [id$="Quiz"]');
+            screens.forEach(screen => screen.classList.add('hidden'));
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+
+        function startChallenge(challengeNum) {
+            currentChallenge = challengeNum;
+            selectedAnswer = null;
+            if (challengeNum === 1) {
+                showScreen('challenge1Screen');
+            } else if (challengeNum === 2) {
+                showScreen('challenge2Screen');
+            } else if (challengeNum === 3) {
+                showScreen('challenge3Screen');
+            } else if (challengeNum === 4) {
+                showScreen('finalScreen');
+            }
+        }
+
+        function startQuiz(challengeNum) {
+            currentChallenge = challengeNum;
+            selectedAnswer = null;
+            const quiz = quizData[challengeNum];
+            
+            const optionsContainer = document.getElementById(`quiz${challengeNum}Options`);
+            optionsContainer.innerHTML = '';
+            
+            quiz.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'quiz-option';
+                optionDiv.textContent = option.text;
+                // Updated: Logic now triggers immediately on click
+                optionDiv.onclick = () => selectAnswer(optionDiv, index, challengeNum, option.correct);
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            showScreen(`challenge${challengeNum}Quiz`);
+        }
+
+        function selectAnswer(element, index, challengeNum, isCorrect) {
+            // Remove selection from others
+            document.querySelectorAll(`#quiz${challengeNum}Options .quiz-option`).forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            element.classList.add('selected');
+
+            // Verification Logic
+            if (isCorrect) {
+                element.style.backgroundColor = "#4CAF50"; // Turn Green
+                element.style.color = "white";
+                setTimeout(() => {
+                    startChallenge(challengeNum + 1);
+                }, 600); // Small delay so user sees the green success color
+            } else {
+                element.style.backgroundColor = "#e74c3c"; // Turn Red
+                element.style.color = "white";
+                alert('ප්‍රතිචාරය නිවැරදි නොවුණා! නැවත උත්සාහ කරන්න! ❌');
+                element.classList.remove('selected');
+                element.style.backgroundColor = ""; // Reset color
+                element.style.color = "";
+            }
+        }
+
+        function backToChallenge(challengeNum) {
+            startChallenge(challengeNum);
+        }
+
+        window.addEventListener('load', () => {
+            showScreen('introScreen');
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d7011b5576592f6',t:'MTc3MjYxODc5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
